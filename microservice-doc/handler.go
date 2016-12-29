@@ -1,36 +1,45 @@
-package microservice
+package main
 
 // Microservice
 // Handler
 // Copyright © 2016 Eduard Sesigin. All rights reserved. Contacts: <claygod@yandex.ru>
 
+import "fmt"
 import "net/http"
+import "github.com/Sirupsen/logrus"
+import "context"
 
 // NewHandler - create a new Handler
 func NewHandler(conf *Tuner) *Handler {
 	h := &Handler{
-		Store: NewStorage(conf),
-		Conf:  conf,
+		Conf: conf,
+		Log:  logrus.New(),
 	}
 	return h
 }
 
 // Handler structure
 type Handler struct {
-	Store *Storage
-	Conf  *Tuner
+	Conf *Tuner
+	Log  *logrus.Logger
 }
 
-// Handle - add the handle to the handler
-func (h *Handler) Handle(f func(http.ResponseWriter, *http.Request)) *Handle {
-	x := NewHandle(f)
+// Queue - create the new queue to the handler
+func (h *Handler) Queue(args ...func(http.ResponseWriter, *http.Request) (http.ResponseWriter, *http.Request)) *Queue {
+	x := NewQueue(args)
 	return x
 }
 
-// Test - handler method for example
-func (h *Handler) Test(w http.ResponseWriter, req *http.Request) {
+// HelloWorld - handler method for example
+func (h *Handler) HelloWorld(w http.ResponseWriter, req *http.Request) (http.ResponseWriter, *http.Request) {
 	w.Header().Del("Content-Type")
 	w.Header().Set("Content-Type", "text/plain; charset=UTF-8")
-	// fmt.Print("Testus!\n")
-	w.Write([]byte("Test"))
+	w.Write([]byte(fmt.Sprintf("Hello %s!", h.Conf.Main.Name)))
+	// for test
+	ctx := req.Context()
+	ctx = context.WithValue(ctx, "Test", "Test")
+	req = req.WithContext(ctx)
+	// demo log
+	// go h.Log.WithField("hello", h.Conf.Main.Name).Info("Demo of logging")
+	return w, req
 }
