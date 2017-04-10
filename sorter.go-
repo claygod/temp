@@ -1,0 +1,67 @@
+package embedb
+
+// EmbeDB
+// Sorter
+// Copyright © 2017 Eduard Sesigin. All rights reserved. Contacts: <claygod@yandex.ru>
+
+import "unsafe"
+import "sort"
+
+// NewSorter - create a new Sorter-struct
+func NewSorter(spec *Spec) *Sorter {
+	s := &Sorter{spec: spec}
+	return s
+}
+
+type Sorter struct {
+	spec *Spec
+}
+
+func (s *Sorter) SortItems(items []interface{}, tag string, asc int, from int, to int) []interface{} {
+	if tp, ptr, ok := s.spec.GetSortParam(tag); ok {
+		if tp == TYPE_INT {
+			return s.sortInt(items, ptr, asc, from, to)
+		}
+	}
+	return items
+}
+
+func (_ *Sorter) sortInt(items []interface{}, offset uintptr, asc int, from int, to int) []interface{} {
+	m := make(map[int]int)
+	for i, item := range items {
+		m[i] = *(*int)(unsafe.Pointer(uintptr(unsafe.Pointer((*iface)(unsafe.Pointer(&item)).data)) + offset))
+
+	}
+	//log.Print("Сортировка начинается: ", m)
+	n := map[int][]int{}
+	var a []int
+	out := make([]interface{}, len(m))
+	//out2 := make([]interface{}, len(m))
+	for k, v := range m {
+		n[v] = append(n[v], k)
+	}
+	for k := range n {
+		a = append(a, k)
+	}
+	if asc == ASC {
+		sort.Sort(sort.IntSlice(a))
+	} else {
+		sort.Sort(sort.Reverse(sort.IntSlice(a)))
+	}
+
+	i := 0
+	for _, k := range a {
+		for _, s := range n[k] {
+			if i >= from {
+				out[i] = items[s]
+			}
+			i++
+			if i == to {
+				goto M1
+			}
+		}
+	}
+M1:
+	return out
+	//return nil
+}
