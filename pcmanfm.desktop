@@ -1,0 +1,22 @@
+[Desktop Entry]
+Type=Application
+Icon=thunar
+Name=File Manager PCManFM
+
+Name[en_GB]=File Manager PCManFM
+Name[ru]=Go проекты
+GenericName=File Manager
+
+GenericName[en_GB]=File Manager
+
+GenericName[ru]=Файловый менеджер
+
+Comment[en_GB]=Browse the file system and manage the files
+Comment[ru]=Просмотр файловой системы и управление файлами
+
+Categories=System;FileTools;FileManager;Utility;Core;GTK;
+Exec=pcmanfm /home/ed/goPath/src/bitbucket.org/ahoolee/p313
+StartupNotify=true
+Terminal=false
+MimeType=inode/directory;
+Path=
