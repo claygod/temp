@@ -1,4 +1,4 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
+# add to end
 
 
 export GOPATH="$HOME/goPath"
