@@ -1,0 +1,6 @@
+	efacez := *(**hchan)(unsafe.Pointer(&ch))
+	fmt.Println("=++++=", efacez)
+	//fmt.Println("=++++=", efacez.ch)
+	fmt.Println("=++++=", efacez.dataqsiz)
+	fmt.Println("=++++=", efacez.qcount)
+	fmt.Println("=++++=", efacez.dataqsiz)
