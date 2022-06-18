@@ -4,4 +4,4 @@ Temporary files
 
 Example license: https://www.sourcetrail.com/terms-of-use
 
-(C) 2018-2022
+## (C) 2018-2022
