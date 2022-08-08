@@ -1,5 +1,5 @@
 # temp
-Temporary txt|pdf|md files
+Temporary txt|pdf|md|zip files
 
 
 Example license: https://www.sourcetrail.com/terms-of-use
