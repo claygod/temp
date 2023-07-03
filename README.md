@@ -1,5 +1,5 @@
 # temp
-Temporary txt|pdf|md|zip files
+Temporary txt|pdf|md|zip|jpg files
 
 
 ## (C) 2018-2023
